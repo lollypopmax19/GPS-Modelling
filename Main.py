@@ -1,9 +1,10 @@
+import time
 from Earth.Earth import Earth
 from Earth.Satellite import Satellite
 from Zeit.Zeitdilitation import TimeDilation
 from GPSSimulation.Positioning import GPSSimulator
 from Person.Path import Person
-from View import visualize_route  # View-Funktion importieren
+from View import visualize_route
 
 # 🌍 Erde-Objekt erstellen
 earth = Earth()
@@ -21,13 +22,22 @@ person = Person(52.5200, 13.4050)
 person.move(100)
 route = person.get_path()
 
-print("Echte Route (erste 5 Punkte):", route[:5])  # Debug-Test
-
 # 📡 GPS-Ortung mit 6 Satelliten simulieren
 gps_sim = GPSSimulator(satellite_count=6)
 noisy_route = gps_sim.track_movement(route)
 
-print("GPS-Route (erste 5 Punkte):", noisy_route[:5])  # Debug-Test
+# 🔄 Zeitschleife für die Satellitenbewegung
+simulation_time = 60 * 10  # 10 Minuten simulieren
+time_step = 10  # Jede 10 Sekunden ein Update
+
+for t in range(0, simulation_time, time_step):
+    print(f"\n⏳ Zeit = {t} Sekunden")
+
+    for sat in satellites:
+        position = sat.get_position(time_seconds=t)
+        print(f"{sat.name} Position nach {t} Sekunden: x={position[0]:.2f}, y={position[1]:.2f}, z={position[2]:.2f}")
+
+    time.sleep(0.5)  # Simulation verlangsamen (nur für Visualisierung)
 
 # 📌 View.py aufrufen zur Visualisierung
 visualize_route(route, noisy_route, "gps_simulation.html")
