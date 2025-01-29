@@ -3,12 +3,7 @@ import random
 
 class Person:
     def __init__(self, start_lat, start_lon, step_size=0.0001):
-        """
-        Erstellt eine Person, die sich auf einer Strecke bewegt.
-        :param start_lat: Startbreitengrad
-        :param start_lon: Startlängengrad
-        :param step_size: Distanz pro Schritt (~10m)
-        """
+        """Erstellt eine Person, die sich zufällig bewegt."""
         self.lat = start_lat
         self.lon = start_lon
         self.step_size = step_size
@@ -33,9 +28,3 @@ class Person:
     def get_path(self):
         """Gibt die simulierte Route zurück."""
         return self.path
-
-# Startpunkt (Berlin)
-person = Person(52.5200, 13.4050)
-person.move(100)
-route = person.get_path()
-print(route[:5])  # Zeigt die ersten Schritte
